@@ -1,0 +1,66 @@
+1. Write a query that shows who is following a specified user. (For this question and all questions below where more than one correct answer to the query may exist, we assume that one would press semicolon after each variable binding to produce additional permissible answers until the list is exhausted.)
+
+follows(user(X,_), user($lucas,public)).
+follows(user(X,_), user($jennifer,public)).
+
+% not followed by anyone
+follows(user(X,_), user($alice,protected)).
+
+
+
+2. Write a qeury that shows all tweets posted by a specified user.
+
+tweet(user($tony,public), I, M).
+tweet(user($lee,protected), I, M).
+
+% posted nothing
+tweet(user($alice,public), I, M).
+
+
+
+3. Write a query that shows the users who retweeted a specified tweet.
+
+retweet(user(X,_),5).
+retweet(user(X,_),15).
+
+
+
+4. Wrtie quereis that shows a particular user's feed. Ensure that tweets of any users that the user follows are visible in the feed.
+	(a) Show at least one example where the user's feed contains at least one public tweet.
+		feed($alice,M).
+
+	(b) Show at least one example where the user's feed contains at least one protected tweet (that the user is authorized to see). For example, user x may follow y and y may retweet a tweet authored by protected user z where x follows z and therefore should see z's tweet.
+		% $lee retweeted tweet(user($kim,protected), 5, [$kim, this, is, my, second, posting]). 
+		feed($lucas,M).
+
+	(c) Show at least one example where the user's feed does not contain at least one protected tweet. For example, user x may follow y and y may retweet a tweet authored by protected user z where x does not follow z and therefore should not see z's tweet.
+		feed($alice,M).
+
+
+
+5. Write a query that searches for a keyword in the universe of tweets.
+search('hello',U,M).
+search('hello',user(U,_),M).
+
+% show search results of only public tweets, not protected tweets (though protected tweets also contains keyword: this)
+search('this',U,M).
+search('this',user(U,_),M).
+
+% return false for keyword that is only contained in protected tweets
+search('please',U,M).
+search('please',user(U,_),M).
+
+
+
+6. Write a query that shows if a particular tweet is viral between the sender and a specified receiver.
+isviral($u5,15,$u1).
+isviral($u5,15,$u2).
+
+% false
+isviral($u5,15,$lee).
+
+
+
+7. Write a query that shows if a particular tweet is viral between the sender and a specified receiver in no less than 3 levels of indirection.
+isviral($u5,15,$u1,3).
+isviral($u5,15,$u2,3).
